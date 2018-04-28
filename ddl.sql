@@ -276,3 +276,21 @@ create procedure delete_movimento(in id int)
     delete from tb_movimentos where id_movimento = id;
   end $$
 delimiter ;
+
+delimiter $$
+create procedure get_usuarios(in empresa int)
+  begin
+    select *
+    from tb_usuarios
+    where id_empresa = empresa;
+  end $$
+delimiter ;
+
+delimiter $$
+create procedure get_usuario(in id int)
+  begin
+    select *
+    from tb_usuarios
+    where id_usuario = id;
+  end $$
+delimiter ;
