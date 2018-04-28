@@ -10,4 +10,14 @@ ContaDAO.prototype.getConta = function(id_conta, cb){
     this._conn.query("call get_conta(?);", id_conta, cb);
 };
 
+ContaDAO.prototype.insert = function({id_empresa, ds_conta}, cb){
+    this._conn.query("SET @output = 10");
+    this._conn.query("call post_conta(@output, ?, ?)", [id_empresa, ds_conta]);
+    this._conn.query("select @output as id_conta", cb);
+};
+
+ContaDAO.prototype.delete = function(id_conta, cb){
+    this._conn.query("call delete_conta(?);", id_conta, cb);
+};
+
 module.exports = () => ContaDAO;
