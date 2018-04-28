@@ -74,6 +74,34 @@ module.exports = app => {
 
     });
 
+    app.put('/contas/:id', (req, res) => {
+
+        const id = req.params.id;
+        const conta = req.body;
+            conta.id_conta = id;
+        const conn = app.data.connectionFactory();
+        const dao = new app.data.ContaDAO(conn);
+
+        dao.update(conta, (err, rs) => {
+
+            if(err){
+                res.status(400).json({err});
+                return;
+            }
+
+            const result = {
+                status:"1",
+                message:"Atualizado com sucesso",
+                payload: conta
+            };
+
+            res
+                .status(200)
+                .json(result);
+        })
+
+    });
+
     app.delete('/contas/:id', (req, res) => {
 
         const id = req.params.id;

@@ -16,6 +16,10 @@ ContaDAO.prototype.insert = function({id_empresa, ds_conta}, cb){
     this._conn.query("select @output as id_conta", cb);
 };
 
+ContaDAO.prototype.update = function({id_conta, ds_conta}, cb){
+    this._conn.query("call put_conta(?,?)",[id_conta, ds_conta], cb);
+};
+
 ContaDAO.prototype.delete = function(id_conta, cb){
     this._conn.query("call delete_conta(?);", id_conta, cb);
 };
