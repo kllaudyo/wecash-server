@@ -294,3 +294,32 @@ create procedure get_usuario(in id int)
     where id_usuario = id;
   end $$
 delimiter ;
+
+delimiter $$
+create procedure post_usuario(out id int, in empresa int, in usuario varchar(255), in email varchar(255), in senha varchar(255))
+  begin
+    insert into tb_usuarios
+    (id_empresa, nm_usuario, nm_email, nm_senha, dt_atualizacao)
+    values
+    (empresa, usuario, email, senha, current_timestamp());
+    set id = last_insert_id();
+  end $$
+delimiter ;
+
+delimiter $$
+create procedure put_usuario(in id int, in usuario varchar(255), in email varchar(255), in senha varchar(255))
+  begin
+    update tb_usuarios
+      set nm_usuario = usuario,
+        nm_email = email,
+        nm_senha = senha
+    where id_usuario = id;
+  end $$
+delimiter ;
+
+delimiter $$
+create procedure delete_usuario(in id int)
+  begin
+    delete from tb_usuarios where id_usuario = id;
+  end $$
+delimiter ;
