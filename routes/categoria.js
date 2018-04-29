@@ -1,11 +1,12 @@
 module.exports = app => {
 
-    app.get('/categorias', (req, res) => {
+    app.get('/categorias', app.auth.authenticate(), (req, res) => {
 
         const conn = app.data.connectionFactory();
         const dao = new app.data.CategoriaDAO(conn);
+        const {id_usuario, id_empresa} = req.user;
 
-        dao.getCategorias(1, (err, rs) => {
+        dao.getCategorias(id_empresa, (err, rs) => {
 
             if(err){
                 res.status(400).json({err});
@@ -18,11 +19,12 @@ module.exports = app => {
 
     });
 
-    app.get('/categorias/:id', (req, res) => {
+    app.get('/categorias/:id', app.auth.authenticate(), (req, res) => {
 
         const id = req.params.id;
         const conn = app.data.connectionFactory();
         const dao = new app.data.CategoriaDAO(conn);
+        const {id_usuario, id_empresa} = req.user;
 
         dao.getCategoria(id, (err, rs) => {
 
@@ -37,11 +39,12 @@ module.exports = app => {
 
     });
 
-    app.post('/categorias', (req, res) => {
+    app.post('/categorias', app.auth.authenticate(), (req, res) => {
 
         const categoria = req.body;
         const conn = app.data.connectionFactory();
         const dao = new app.data.CategoriaDAO(conn);
+        const {id_usuario, id_empresa} = req.user;
 
         dao.insert(categoria, (err, rs) => {
 
@@ -66,13 +69,14 @@ module.exports = app => {
 
     });
 
-    app.put('/categorias/:id', (req, res) => {
+    app.put('/categorias/:id', app.auth.authenticate(), (req, res) => {
 
         const id = req.params.id;
         const categoria = req.body;
             categoria.id_categoria = id;
         const conn = app.data.connectionFactory();
         const dao = new app.data.CategoriaDAO(conn);
+        const {id_usuario, id_empresa} = req.user;
 
         dao.update(categoria, (err, rs) => {
 
@@ -94,11 +98,12 @@ module.exports = app => {
 
     });
 
-    app.delete('/categorias/:id', (req, res) => {
+    app.delete('/categorias/:id', app.auth.authenticate(), (req, res) => {
 
         const id = req.params.id;
         const conn = app.data.connectionFactory();
         const dao = new app.data.CategoriaDAO(conn);
+        const {id_usuario, id_empresa} = req.user;
 
         dao.delete(id, (err, rs) => {
 
