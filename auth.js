@@ -14,8 +14,10 @@ module.exports = app => {
             if(err)
                 return done(err,null);
 
-            if(rs[0][0])
-                return done(null, rs[0][0]);
+            if(rs[0][0]){
+                const {id_usuario, id_empresa} = rs[0][0];
+                return done(null, {id_usuario, id_empresa});
+            }
 
             return done(null, false);
         })
