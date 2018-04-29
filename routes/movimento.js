@@ -1,11 +1,12 @@
 module.exports = app => {
 
-    app.get('/movimentos', (req, res) => {
+    app.get('/movimentos', app.auth.authenticate(), (req, res) => {
 
         const conn = app.data.connectionFactory();
         const dao = new app.data.MovimentoDAO(conn);
+        const {id_usuario, id_empresa} = req.user;
 
-        dao.getMovimentos(1, (err, rs) => {
+        dao.getMovimentos(id_empresa, (err, rs) => {
 
             if(err){
                 res.status(400).json({err});
@@ -18,11 +19,12 @@ module.exports = app => {
 
     });
 
-    app.get('/movimentos/:id', (req, res) => {
+    app.get('/movimentos/:id', app.auth.authenticate(), (req, res) => {
 
         const id = req.params.id;
         const conn = app.data.connectionFactory();
         const dao = new app.data.MovimentoDAO(conn);
+        const {id_usuario, id_empresa} = req.user;
 
         dao.getMovimento(id, (err, rs) => {
 
@@ -37,11 +39,12 @@ module.exports = app => {
 
     });
 
-    app.post('/movimentos', (req, res) => {
+    app.post('/movimentos', app.auth.authenticate(), (req, res) => {
 
         const movimento = req.body;
         const conn = app.data.connectionFactory();
         const dao = new app.data.MovimentoDAO(conn);
+        const {id_usuario, id_empresa} = req.user;
 
         dao.insert(movimento, (err, rs) => {
 
@@ -66,13 +69,14 @@ module.exports = app => {
 
     });
 
-    app.put('/movimentos/:id', (req, res) => {
+    app.put('/movimentos/:id', app.auth.authenticate(), (req, res) => {
 
         const id = req.params.id;
         const movimento = req.body;
         movimento.id_movimento = id;
         const conn = app.data.connectionFactory();
         const dao = new app.data.MovimentoDAO(conn);
+        const {id_usuario, id_empresa} = req.user;
 
         dao.update(movimento, (err, rs) => {
 
@@ -94,11 +98,12 @@ module.exports = app => {
 
     });
 
-    app.delete('/movimentos/:id', (req, res) => {
+    app.delete('/movimentos/:id', app.auth.authenticate(), (req, res) => {
 
         const id = req.params.id;
         const conn = app.data.connectionFactory();
         const dao = new app.data.MovimentoDAO(conn);
+        const {id_usuario, id_empresa} = req.user;
 
         dao.delete(id, (err, rs) => {
 
