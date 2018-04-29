@@ -8,6 +8,8 @@ module.exports = app => {
 
         dao.getMovimentos(id_empresa, (err, rs) => {
 
+            conn.end();
+
             if(err){
                 res.status(400).json({err});
                 return;
