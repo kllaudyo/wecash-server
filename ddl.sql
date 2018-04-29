@@ -323,3 +323,13 @@ create procedure delete_usuario(in id int)
     delete from tb_usuarios where id_usuario = id;
   end $$
 delimiter ;
+
+delimiter $$
+create procedure auth_usuario(in email varchar(255), senha varchar(255))
+  begin
+    select *
+    from tb_usuarios
+    where nm_email = email
+    and nm_senha = senha;
+  end $$
+delimiter ;
