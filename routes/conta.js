@@ -1,11 +1,12 @@
 module.exports = app => {
 
-    app.get('/contas', (req, res) => {
+    app.get('/contas', app.auth.authenticate(), (req, res) => {
 
         const conn = app.data.connectionFactory();
         const dao = new app.data.ContaDAO(conn);
+        const {id_usuario, id_empresa} = req.user;
 
-        dao.getContas(1, (err, rs) => {
+        dao.getContas(id_empresa, (err, rs) => {
 
             if(err){
                 res
@@ -22,11 +23,12 @@ module.exports = app => {
 
     });
 
-    app.get('/contas/:id', (req, res) => {
+    app.get('/contas/:id', app.auth.authenticate(), (req, res) => {
 
         const id = req.params.id;
         const conn = app.data.connectionFactory();
         const dao = new app.data.ContaDAO(conn);
+        const {id_usuario, id_empresa} = req.user;
 
         dao.getConta(id, (err, rs) => {
 
@@ -45,11 +47,12 @@ module.exports = app => {
 
     });
 
-    app.post('/contas', (req, res) => {
+    app.post('/contas', app.auth.authenticate(), (req, res) => {
 
         const conta = req.body;
         const conn = app.data.connectionFactory();
         const dao = new app.data.ContaDAO(conn);
+        const {id_usuario, id_empresa} = req.user;
 
         dao.insert(conta, (err, rs) => {
 
@@ -74,13 +77,14 @@ module.exports = app => {
 
     });
 
-    app.put('/contas/:id', (req, res) => {
+    app.put('/contas/:id', app.auth.authenticate(), (req, res) => {
 
         const id = req.params.id;
         const conta = req.body;
             conta.id_conta = id;
         const conn = app.data.connectionFactory();
         const dao = new app.data.ContaDAO(conn);
+        const {id_usuario, id_empresa} = req.user;
 
         dao.update(conta, (err, rs) => {
 
@@ -102,11 +106,12 @@ module.exports = app => {
 
     });
 
-    app.delete('/contas/:id', (req, res) => {
+    app.delete('/contas/:id', app.auth.authenticate(), (req, res) => {
 
         const id = req.params.id;
         const conn = app.data.connectionFactory();
         const dao = new app.data.ContaDAO(conn);
+        const {id_usuario, id_empresa} = req.user;
 
         dao.delete(id, (err, rs) => {
 
