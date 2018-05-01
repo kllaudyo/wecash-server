@@ -55,6 +55,7 @@ module.exports = app => {
         const conn = app.data.connectionFactory();
         const dao = new app.data.ContaDAO(conn);
         const {id_usuario, id_empresa} = req.user;
+        conta.id_empresa = id_empresa;
 
         dao.insert(conta, (err, rs) => {
 
@@ -83,10 +84,11 @@ module.exports = app => {
 
         const id = req.params.id;
         const conta = req.body;
-            conta.id_conta = id;
+            conta.id_conta = parseInt(id, 10);
         const conn = app.data.connectionFactory();
         const dao = new app.data.ContaDAO(conn);
         const {id_usuario, id_empresa} = req.user;
+        conta.id_empresa = id_empresa;
 
         dao.update(conta, (err, rs) => {
 

@@ -73,7 +73,7 @@ module.exports = app => {
 
         const id = req.params.id;
         const usuario = req.body;
-        usuario.id_usuario = id;
+        usuario.id_usuario = parseInt(id, 10);
         const conn = app.data.connectionFactory();
         const dao = new app.data.UsuarioDAO(conn);
         const {id_usuario, id_empresa} = req.user;

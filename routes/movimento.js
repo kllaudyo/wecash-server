@@ -75,7 +75,7 @@ module.exports = app => {
 
         const id = req.params.id;
         const movimento = req.body;
-        movimento.id_movimento = id;
+        movimento.id_movimento = parseInt(id, 10);
         const conn = app.data.connectionFactory();
         const dao = new app.data.MovimentoDAO(conn);
         const {id_usuario, id_empresa} = req.user;
